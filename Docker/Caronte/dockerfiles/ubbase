@@ -9,3 +9,4 @@ RUN apt update && aot install -yq --no-install-recommends \
 
 RUN useradd -rm -d /home/{$USUARIO} -s /bin/bash ${USUARIO} 
 RUN echo "${USUARIO}:${PASSWORD}" | chpasswd 
+RUN echo "Bienvenido a la empresa, ${USUARIO}" > /home/${USUARIO}/hola.txt
