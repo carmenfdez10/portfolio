@@ -6,7 +6,7 @@ services:
       dockerfile: deploy/Dockerfile
       args: #variables en DF para el build de la imagen
         - USUARIO=carmela
-        - PASS=1234
+        - PASSWORD=1234
     container_name: ctportfolio
     ports:
     - "8810:80"
