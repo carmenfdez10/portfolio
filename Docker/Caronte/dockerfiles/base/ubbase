@@ -1,0 +1,26 @@
+FROM ubuntu
+
+ARG USUARIO
+ARG PASSWORD
+
+RUN apt update && apt install -yq --no-install-recommends \
+    nano \
+    git \
+    curl \
+    wget \
+    iputils-ping \
+    net-tools \
+    sudo \
+ && rm -rf /var/lib/apt/lists/*
+
+# Crear el usuario con su home
+RUN useradd -m -d /home/${USUARIO} -s /bin/bash ${USUARIO}
+
+# Asignar contraseña
+RUN echo "${USUARIO}:${PASSWORD}" | chpasswd
+
+# Crear archivo de bienvenida
+RUN echo "Bienvenido a la empresa, ${USUARIO}" > /home/${USUARIO}/hola.txt \
+ && chown ${USUARIO}:${USUARIO} /home/${USUARIO}/hola.txt
+
+CMD ["tail", "-f", "/dev/null"]
