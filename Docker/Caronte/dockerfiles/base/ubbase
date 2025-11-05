@@ -13,14 +13,16 @@ RUN apt update && apt install -yq --no-install-recommends \
     sudo \
  && rm -rf /var/lib/apt/lists/*
 
-# Crear el usuario con su home
+RUN mkdir /root/admin
+COPY ./admin/start.sh /root/admin
+RUN chmod +x /root/admin/start.sh
+
 RUN useradd -m -d /home/${USUARIO} -s /bin/bash ${USUARIO}
-
-# Asignar contraseña
 RUN echo "${USUARIO}:${PASSWORD}" | chpasswd
-
-# Crear archivo de bienvenida
 RUN echo "Bienvenido a la empresa, ${USUARIO}" > /home/${USUARIO}/hola.txt \
  && chown ${USUARIO}:${USUARIO} /home/${USUARIO}/hola.txt
 
-CMD ["tail", "-f", "/dev/null"]
+##CMD ["tail", "-f", "/dev/null"]
+
+
+ENTRYPOINT [ "/root/admin/start.sh" ]
