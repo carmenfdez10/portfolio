@@ -1,28 +1,17 @@
 FROM ubuntu
 
 ARG USUARIO
-ARG PASSWORD
-
+ENV USER = ${USUARIO}
 RUN apt update && apt install -yq --no-install-recommends \
     nano \
-    git \
-    curl \
-    wget \
-    iputils-ping \
-    net-tools \
-    sudo \
- && rm -rf /var/lib/apt/lists/*
+    git curl wget \
+    iputils-ping net-tools \
+    sudo 
 
-RUN mkdir /root/admin
-COPY ./admin/start.sh /root/admin
-RUN chmod +x /root/admin/start.sh
+#Copiar los scripts del entrypoint 
+RUN mkdir -p /root/admin/base
+WORKDIR /root/admin/base
+COPY ./dockerfiles/base/admin/start.sh .
+RUN chmod +x ./start.sh
 
-RUN useradd -m -d /home/${USUARIO} -s /bin/bash ${USUARIO}
-RUN echo "${USUARIO}:${PASSWORD}" | chpasswd
-RUN echo "Bienvenido a la empresa, ${USUARIO}" > /home/${USUARIO}/hola.txt \
- && chown ${USUARIO}:${USUARIO} /home/${USUARIO}/hola.txt
-
-##CMD ["tail", "-f", "/dev/null"]
-
-
-ENTRYPOINT [ "/root/admin/start.sh" ]
+ENTRYPOINT [ "./start.sh" ]

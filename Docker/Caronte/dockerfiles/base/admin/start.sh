@@ -1,5 +1,15 @@
-#!bin/bash
+#!/bin/bash
+newUser() {
+     useradd -rm -d /home/${USUARIO} -s /bin/bash ${USUARIO}
+        echo "${USUARIO}:1234" | chpasswd
+        echo "Bienvenida ${USUARIO}..." > /home/${USUARIO}/Bienvenida.txt
+        echo "Usuario '${USUARIO}' creado correctamente."
+}
 
-tail -f /dev/null
+main() {
+    newUser
+    tail -f /dev/null
+}
 
+main
 #Script que se encarga de configurar el contenedor

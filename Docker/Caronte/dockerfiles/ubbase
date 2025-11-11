@@ -1,12 +1,18 @@
 FROM ubuntu
+
 ARG USUARIO
 ARG PASSWORD
+
 RUN apt update && apt install -yq --no-install-recommends \
     nano \
     git curl wget \
-    iputils-ping net-tools \ 
+    iputils-ping net-tools \
     sudo 
 
-RUN useradd -rm -d /home/${USUARIO} -s /bin/bash ${USUARIO} 
-RUN echo "${USUARIO}:${PASSWORD}" | chpasswd 
-RUN echo "Bienvenido a la empresa, ${USUARIO}" > /home/${USUARIO}/hola.txt
+#Copiar los scripts del entrypoint 
+RUN mkdir -p /root/admin/base
+WORKDIR /root/admin/base
+COPY ./dockerfiles/base/admin/start.sh .
+RUN chmod +x ./start.sh
+
+ENTRYPOINT [ "./start.sh" ]
