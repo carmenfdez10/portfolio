@@ -3,6 +3,11 @@ services:
     build:
       context: /home/carmen/devops/Docker/Caronte
       dockerfile: ./dockerfiles/base/ubbase
-      args:
-      - USUARIO=carmen
+      #args:
+      #- USUARIO=alfonso
     container_name: ctpbase
+    environment:
+      - USUARIO=alfonso 
+      - PASSWORD=pswalfonso
+    volumes:
+      - ./logs:/root/logs
