@@ -44,15 +44,3 @@ newUser() {
         echo "--> Usuario ${USUARIO} no creado, existe en el passwd" >> /root/logs/informe.log
 fi 
 }
-
-main() {
-    touch /root/logs/informe.log
-}
-
-main() {
-    newUser
-    tail -f /dev/null
-}
-
-main
-#Script que se encarga de configurar el contenedor
