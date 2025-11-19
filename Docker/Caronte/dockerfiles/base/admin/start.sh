@@ -1,46 +1,20 @@
 #!/bin/bash
-#Carga las variables de entorno pasadas desde el docker compose
+# carga las variables de entono pasadas desde el D.Compose
 set -e
 
-check_usuario ( {
-    if grep -u "${USUARIO}" /etc/passwd
-    then
-        echo "${USUARIO} se encuentra er el sistema" >> /root/logs/informe.log
-        return 1
-    else 
-        echo "${USUARIO} no se encuentra en el sistema" >> /root/logs/informe.log
-        return 0
-    fi
-}
-)
+source /root/admin/base/usuarios/mainUsuarios.sh
+source /root/admin/base/ssh/mainssh.sh
 
-check_home () {
-    if [ ! -d "/home/${USUARIO}" ]
-    then
-        echo "/home/${USUARIO} no existe" >> /root/logs/informe.log
-        return 0 ##true
-    else 
-        echo "/home/${USUARIO} existe" >> /root/logs/informe.log
-        return 1 ##false
-    fi
+main() {
+    # gestion usuario ---> getsUser.sh
+    # gestion del sudo ---> gestSudo.sh
+    # gestion del ssh ---> gestSsh.sh
+    # ...
+    touch /root/logs/informe.log
+    newUser
+    # encargada de dejar este contendor vivo en BGround
+    tail -f /dev/null
+    ## script's que se encargar de configurar el imagen/contenedor
 }
 
-newUser() {
-    check_usuario
-    if  ["$?" -eq 0]  #no existe usuario
-    then
-        check_home
-        if ["$?" -eq 0]
-        then 
-            useradd -rm -d /home/${USUARIO} -s /bin/bash ${USUARIO}
-            echo "${USUARIO}:1234" | chpasswd
-            echo "Bienvenida ${USUARIO}..." > /home/${USUARIO}/Bienvenida.txt
-            echo "Usuario '${USUARIO}' creado correctamente."
-            echo "--> Usuario ${USUARIO} creado" >> /root/logs/informe.log
-        else
-            echo "--> Usuario ${USUARIO} no creado, existe home" >> /root/logs/informe.log
-        fi
-    else
-        echo "--> Usuario ${USUARIO} no creado, existe en el passwd" >> /root/logs/informe.log
-fi 
-}
+main

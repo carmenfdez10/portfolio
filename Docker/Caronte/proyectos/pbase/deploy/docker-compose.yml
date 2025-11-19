@@ -1,13 +1,15 @@
 services:
   web:
-    build:
-      context: /home/carmen/devops/Docker/Caronte
+    build: 
+      context: ${CONTEXTO}
       dockerfile: ./dockerfiles/base/ubbase
-      #args:
-      #- USUARIO=alfonso
-    container_name: ctpbase
-    environment:
-      - USUARIO=alfonso 
-      - PASSWORD=pswalfonso
+      # args: #variables en DFILE para la construccion (build) de la imagen
+        # - USUARIO=alfonso
+    container_name: ${CONTENEDOR}
+    # environment: # si necesito algun v.e que no esté en la .env
+    #   - USUARIO=alfonso
+    #   - PASSWORD=pswalfonso
+    env_file:
+      - ./.env
     volumes:
       - ./logs:/root/logs
