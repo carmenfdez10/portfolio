@@ -16,8 +16,13 @@ WORKDIR /root/admin/base
 RUN mkdir /var/run/sshd
 EXPOSE 22
 
+RUN mkdir /root/logs
+
 # Copiar archivos
 COPY ./common/id_ed25519.pub /root/common/
+# *** AÑADIR ESTA LÍNEA DE PERMISOS ***
+RUN chmod 644 /root/common/id_ed25519.pub
+
 COPY ./dockerfiles/base/admin .
 
 # Dar permisos de ejecución

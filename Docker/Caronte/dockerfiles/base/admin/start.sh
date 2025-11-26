@@ -16,7 +16,7 @@ main() {
     newUser
     if [ "$?" -eq 0 ]
     then
-        make_ssh
+        newSSH
     fi
 
     # encargada de dejar este contendor vivo en BGround
