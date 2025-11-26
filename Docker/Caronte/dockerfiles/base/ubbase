@@ -1,18 +1,27 @@
 FROM ubuntu
 
-ARG USUARIO
-ENV USER = ${USUARIO}
+# Instalar paquetes
 RUN apt update && apt install -yq --no-install-recommends \
-    nano \
-    git curl wget \
-    iputils-ping net-tools \
-    sudo 
+     nano \
+     git curl wget \
+     iputils-ping net-tools \
+     sudo \
+     openssh-server \
+     ca-certificates
 
-#Copiar los scripts del entrypoint 
 RUN mkdir -p /root/admin/base
 WORKDIR /root/admin/base
 
+# Crear directorios
+RUN mkdir /var/run/sshd
+EXPOSE 22
+
+# Copiar archivos
+COPY ./common/id_ed25519.pub /root/common/
 COPY ./dockerfiles/base/admin .
+
+# Dar permisos de ejecución
 RUN chmod +x ./start.sh
 
-ENTRYPOINT [ "./start.sh" ]
+# Ejecutar script al iniciar
+ENTRYPOINT ["./start.sh"]

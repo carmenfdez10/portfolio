@@ -1,18 +1,11 @@
-config_ssh() {
-    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/
-    sed -i 's/#Port 22 /Port 22' /etc/ssh/sshd_config
-        if [ ! -d /home/${USUARIO}/.ssh]
-            then 
-                mkdir /home/${USUARIO}/.ssh 
-                cat /root/datos/id_rsa.pub >> /home/${USUARIO}/.ssh/authorized_keys
-            fi
+#!/bin/bash
+set -e
 
-            exec /usr/bin/sshd -D &
-}
+make_ssh(){
+    sed -i 's/#Port 22/Port 2345/' /etc/ssh/sshd_config
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-config_sudoers () {
-    if [ -f /etc/sudoers]
-    then  
-        echo "${USUARIO} ALL=(ALL:ALL) ALL" >> /etc/sudoers
-    fi
+    mkdir -p /home/${USUARIO}/.ssh
+    cp /root/common/id_ed25519.pub /home/${USUARIO}/.ssh/
+    #cat /root/admin/base/common/id_ed25519 >> /home/${USUARIO}/.ssh/authorized_keys
 }
