@@ -1,32 +1,6 @@
 services:
-  db:
-      image: postgres
-      environment:
-        POSTGRES_DB: ${POSTGRES_DB}
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      ports:
-        - "${POSTGRES_PORT}:5432"
-      env_file:
-      - ./.env
-      volumes:
-        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-        - ./logs:/root/logs
   web:
-    depends_on:
-      - db
-    build: 
-      context: ${CONTEXTO}
-      dockerfile: ./dockerfiles/base/ubbase
-    container_name: ${CONTENEDOR}
-    env_file:
-      - ./.env
-    volumes:
-      - ./logs:/root/logs
-    networks:
-      netcaronte:
-        ipv4_address: ${IP}
-
+  
 networks:
   netcaronte:
     ipam:
