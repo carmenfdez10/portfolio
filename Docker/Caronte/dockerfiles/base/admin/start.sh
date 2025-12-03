@@ -20,7 +20,7 @@ main() {
     fi
 
     # encargada de dejar este contendor vivo en BGround
-    tail -f /dev/null
+    ##tail -f /dev/null
     ## script's que se encargar de configurar el imagen/contenedor
 }
 
