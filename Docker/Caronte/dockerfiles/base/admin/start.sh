@@ -19,8 +19,9 @@ main() {
         newSSH
     fi
 
-    # encargada de dejar este contendor vivo en BGround
-    ##tail -f /dev/null
+    # encargada de dejar este contendor vivo en BGround. 
+    # Eliminamos el tail 
+    ## tail -f /dev/null
     ## script's que se encargar de configurar el imagen/contenedor
 }
 
