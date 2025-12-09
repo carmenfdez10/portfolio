@@ -1,0 +1,27 @@
+services:
+  web:
+    build: 
+      context: ${CONTEXTO}
+      dockerfile: ${DOCKERFILE}
+    container_name: ${CONTENEDOR}
+    ports:
+      # Los puertos deben ser una lista (con guion '-')
+      - "${PORT_WEB}:80" 
+    env_file:
+      - ./.env # Asegúrate de que env_file también sea una lista (aunque sea de un solo elemento)
+    
+    volumes:
+      # Los volúmenes deben ser una lista (con guion '-')
+      - ./logs:/root/logs 
+    
+    networks:
+      netcarontewebnginx:
+        # La dirección IP debe ser un sub-parámetro del nombre de la red
+        ipv4_address: ${IP} 
+
+networks:
+  netcarontewebnginx:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}
