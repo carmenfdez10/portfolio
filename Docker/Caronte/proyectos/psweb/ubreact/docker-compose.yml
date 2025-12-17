@@ -1,0 +1,34 @@
+services:
+  web:
+    build: 
+      context: ${CONTEXTO}
+      dockerfile: ${DOCKERFILE}
+    
+    container_name: ${CONTENEDOR}
+    
+    ports:
+      - "${PORT_WEB}:80"
+    
+    env_file:
+      - ./.env
+    
+    volumes:
+      # Logs para persistencia
+      - ./logs:/var/log/nginx
+      # OPCIONAL: Si quieres ver los cambios en tiempo real (Hot Reload) 
+      # puedes mapear tu carpeta src (ajusta la ruta según tu estructura)
+      # - ./proyectos/${PROYECTO}/src:/var/www/html
+    
+    networks:
+      netcarontewebnginx:
+        ipv4_address: ${IP}
+
+networks:
+  netcarontewebnginx:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}
+
+## Debería mostrarse la pokeapi en mi contenedor nginx con node pero hay un error tonto que no permite que sea accesible desde mi pc
+## He borrado la pokeapi para liberar espacio de la vpn
